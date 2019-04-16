@@ -1,4 +1,12 @@
 {
   "name": "md-links",
-  "version": "0.1.0"
+  "version": "0.1.0",
+  "description": "Reads and analyzes Markdown files, verifies links and reports stats",
+  "repository": "MelSkywalker/GDL002-md-links",
+  "devDependencies": {
+    "jest": "^24.7.1"
+  },
+  "scripts": {
+    "test": "jest"
+  }
 }
