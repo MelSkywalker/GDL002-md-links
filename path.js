@@ -1,6 +1,8 @@
+'use strict';
+
 const path = require('path');
 const fs = require('fs');
-const url = require('url');
+const markdownLinkExtractor = require('markdown-link-extractor');
 
 // let isFile = fs.lstatSync(pathString).isFile();
 const isFile = (filePath) => {
@@ -34,29 +36,16 @@ let findFiles = (folder) => {
   return fileList;
 };
 
-let findLinks = (file, callback(err, data)) => {
+let findLinks = (file) => {
   const linksList = [];
-  const content = fs.readFileSync(file);
-  data.array.forEach(element => {
-    url.parse()
+  let content = fs.readFileSync(file).toString();
+  let links = markdownLinkExtractor(content);
+  links.forEach(function(link){
+    linksList.push(links)
+    // console.log(links);
   });
+  return linksList;
 };
-
-// let findFiles = (folder, pattern = /.*/) => {
-//   const filesList = [];
-//   fs.readdirSync(folder).map(function(e){
-//     let fileName = path.join(folder, e);
-//     let fileStat = fs.lstatSync(fileName);
-//     if(fileStat.isDirectory()){
-//       Array.prototype.push.apply(filesList(fileName, pattern));
-//     } else{
-//       if(pattern.test(fileName)){
-//         filesList.push(fileName);
-//       }
-//     }
-//   });
-//   return filesList;
-// };
 
 module.exports = {
     isFile: isFile,
