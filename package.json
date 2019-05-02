@@ -1,5 +1,4 @@
 {
-  "author": "Mel Quesada",
   "name": "md-links",
   "version": "0.1.0",
   "description": "Reads and analyzes Markdown files, verifies links and reports stats",
@@ -8,9 +7,14 @@
     "jest": "^24.7.1"
   },
   "dependencies": {
-    "markdown-link-extractor": "^1.2.0"
+    "markdown-link-extractor": "^1.2.0",
+    "request": "2.88.0",
+    "valid-url": "6.4.1",
+    "yargs": "^12.0.2"
   },
   "scripts": {
     "test": "jest"
-  }
+  },
+  "author": "Mel Quesada",
+  "license": "MIT"
 }

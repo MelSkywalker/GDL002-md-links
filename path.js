@@ -3,8 +3,23 @@
 const path = require('path');
 const fs = require('fs');
 const markdownLinkExtractor = require('markdown-link-extractor');
+const validUrl = require('valid-url');
+const request = require('request');
 
-// let isFile = fs.lstatSync(pathString).isFile();
+// const todo = (filePath) => {
+//   if(isFile(filePath)) {
+//     if(isMD(filePath)) {
+//       return console.log(findLinks(file));
+//     }
+//     else {
+//       return console.log('Not a markdown File');
+//     }
+//   }
+//   else {
+//     console.log(findFiles(filePath))
+//   }
+// }
+
 const isFile = (filePath) => {
     if(fs.lstatSync(filePath).isFile()){
         return true;
@@ -47,6 +62,26 @@ let findLinks = (file) => {
   return linksList;
 };
 
+const validateLink = (link) => {
+  let urlWorking;
+  if (validUrl.isUri(link)){
+    urlWorking = "ok";
+  } else {
+    urlWorking = "fail";
+  }
+};
+const getStatusCode = (link) => {
+  request(link), function(error, response, body){
+    console.error('error:', error);
+    console.log('statusCode:', response && response.statusCode);
+    console.log('body:', body);
+  }
+};
+
+const stats = () => {
+
+};
+
 module.exports = {
     isFile: isFile,
     isMD: isMD,
@@ -54,3 +89,30 @@ module.exports = {
     findLinks: findLinks
   };
 
+  // const melDLink = require('melDLink');
+
+  // melDLink('test.md', { validate: true }).then(result => {
+  //   console.log(result);
+  // });
+
+  // fetch('google.com')
+  // .then(result => console.log(result))
+  // .catch(error => {
+  //   console.error(error);
+  // })
+
+  // module.exports = {
+  //   melDLink: (file, options) => {
+  //     return new Promise((resolve, reject) => {
+  //       //read File
+  //       somethingAsync('test.md', (error, result) => {
+  //         if (error) {
+  //           reject(error);
+  //           return;
+  //         }
+  //         resolve(result);
+  //       })
+  //     });
+  //   }
+  // }
+  // new Promise(resolve)
