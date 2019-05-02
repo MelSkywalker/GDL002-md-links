@@ -16,5 +16,8 @@
   },
   "scripts": {
     "test": "jest"
+  },
+  "bin": {
+    "md-links": "./path.js"
   }
 }
