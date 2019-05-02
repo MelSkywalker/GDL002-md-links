@@ -8,6 +8,7 @@
     "jest": "^24.7.1"
   },
   "dependencies": {
+    "command-line-args": "^5.1.1",
     "markdown-link-extractor": "^1.2.0"
   },
   "scripts": {

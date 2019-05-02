@@ -19,7 +19,7 @@ describe('isMD', () => {
 });
 describe('findFiles', () => {
   it('should return an array', () => {
-    expect(typeof path.findFiles('test',pattern = /.md/)).toBe('object')
+    expect(typeof path.findFiles('test', pattern = /.md/)).toBe('object')
   });
 });
 describe('findLinks', () => {
@@ -29,10 +29,10 @@ describe('findLinks', () => {
 })
 
 
-// describe('mdLinks', () => {
+describe('mdLinks', () => {
 
-//   it('should...', () => {
-//     console.log('FIX ME!');
-//   });
+  it('should...', () => {
+    console.log('FIX ME!');
+  });
 
-// });
+});
