@@ -1,26 +1,30 @@
 const fs = require('fs');
 const path = require('path');
 const markdownLinkExtractor = require('markdown-link-extractor');
+const chalk = require('chalk');
+const options = require('./options.js');
 
-var argument = process.argv[2];
+const argument = process.argv[2];
+let option = process.argv[3];
+const fileList = [];
 
 const isFile = (filePath) => {
     if(fs.lstatSync(filePath).isFile()){
-        console.log('isFile true');
+        //console.log('isFile true');
         return true;
         
     } else{
-        console.log('isFile false');
+        //console.log('isFile false');
         return false;
     }
 };
 
 const isMD = (filePath) => {
   if(path.extname(filePath).substr(1)=='md'){
-    console.log('isMD true');
+    //console.log('isMD true');
     return true;
   } else {
-    console.log('isMD false');
+    //console.log('isMD false');
     return false;
   }
 };
@@ -33,24 +37,24 @@ let findLinks = (filePath) => {
     linksList.push(link)
     // console.log(links);
   });
-  console.log(linksList)
+  //console.log(linksList)
   return linksList;
 };
 
 const isDir = (filePath) => {
     const directory = fs.statSync(filePath);
     if(directory.isDirectory()){
-        console.log('It is a directory');
+        //console.log('It is a directory');
         return true;
     }
     else {
-        console.log('Not a directory either');
+        //console.log('Not a directory either');
         return false;
     }
 }
 
 let findFiles = (filePath) => {
-  const fileList = [];
+  //const fileList = [];
 
   if(fs.statSync(filePath).isDirectory()){
       let files = fs.readdirSync(filePath);
@@ -66,26 +70,48 @@ let findFiles = (filePath) => {
           }
       }
   }
-  console.log(fileList)
+  //console.log(fileList)
   return fileList;
 };
 
-
-findFiles(argument);
-
-const main = (filePath) => {
+const mainPath = (filePath) => {
+  let foundLinks;
     if(isFile(filePath) && isMD(filePath)) {
-        const file = fs.readFileSync(filePath);
+        //const file = fs.readFileSync(filePath);
         //const fileToString = file.toString();
         //console.log(fileToString);
-        findLinks(filePath)
+        foundLinks = findLinks(filePath);
     }
     else {
-      findFiles(filePath);
+      foundLinks = findFiles(filePath).forEach(findLinks(filePath));
     }
-}
+    if (option === 'validate') {
+      console.log(chalk.red('Not ready .-.'));
+      
+      foundLinks.forEach(options.validateLink, options.getStatusCode);
+    }
+    if (option === 'stats') {
+      console.log(chalk.red('Almost ready'))
+      console.log('Total: ' + foundLinks.length);
+      //console.log('Broken: ' + foundLinks.forEach(options.linksCount));
+    }
+    else {
+      console.log(chalk.red('Almost ready'));
+      console.log(foundLinks);
+    }
+};
 
-//main(argument);
+
+module.exports = {
+    isFile: isFile,
+    isMD: isMD,
+    findLinks: findLinks,
+    isDir: isDir,
+    findFiles: findFiles,
+    mainPath: mainPath
+  };
+
+mainPath(argument, option);
 
 
 // var number = parseInt(process.argv[2]);
@@ -116,12 +142,3 @@ const main = (filePath) => {
 //   }
 //   return fileList;
 // };
-
-
-// module.exports = {
-//     isFile: isFile,
-//     isMD: isMD,
-//     findFiles: findFiles,
-//     findLinks: findLinks
-//   };
-
