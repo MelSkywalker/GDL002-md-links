@@ -67,31 +67,29 @@ const isDir = (filePath) => {
 }
 
 let findFiles = (filePath) => {
-  //const fileList = [];
-
-  // if(fs.statSync(filePath).isDirectory()){
-      let files = fs.readdirSync(filePath, 'utf-8');
-      for(let i = 0 ; i < files.length ; i++) {
-          let newFilePath = filePath + '/' + files[i];
-          let stat = fs.lstatSync(newFilePath);
-          if(stat.isDirectory()){
-            fileList = fileList.concat(findFiles(filePath));
-          }
-          else if (isFile(newFilePath) && isMD(newFilePath)){
-            fileList.push(newFilePath);
-          }
-      }
-  // }
-  //console.log(fileList)
-  return fileList;
+  fs.readdir(filePath, function(err, files) {
+    if(err) return console.log(chalk.red(err.message));
+    else {
+      files.forEach(function(file) {
+        let newFilePath = `${filePath}/${file}`;
+        let stat = fs.lstatSync(newFilePath, 'utf-8');
+        if(isFile(newFilePath) && isMD(newFilePath)) {
+          findLinks(newFilePath);
+        }
+        else if(stat.isDirectory()) {
+          console.log('is Dir');
+          findFiles(newFilePath);
+        }
+      });
+    }
+  })
 };
+
+//findFiles(argument);
 
 const mainPath = (filePath) => {
   let foundLinks;
     if(isFile(filePath) && isMD(filePath)) {
-        //const file = fs.readFileSync(filePath);
-        //const fileToString = file.toString();
-        //console.log(fileToString);
         foundLinks = findLinks(filePath);
     }
     else {
@@ -123,7 +121,7 @@ module.exports = {
     mainPath: mainPath
   };
 
-mainPath(argument, option);
+// mainPath(argument, option);
 
 
 // var number = parseInt(process.argv[2]);
