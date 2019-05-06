@@ -6,7 +6,8 @@ const chalk = require('chalk');
 const options = require('./options.js');
 
 const argument = process.argv[2];
-let option = process.argv[3];
+const option = process.argv[3];
+const option2 = process.argv[4];
 
 const isFile = (filePath) => {
     if(fs.lstatSync(filePath).isFile()){
@@ -27,7 +28,6 @@ const isMD = (filePath) => {
 let findLinks = (filePath) => {
   let content = fs.readFileSync(filePath, 'utf-8');
   let links = markdownLinkExtractor(content);
-  let linkCount = 0;
   links.forEach(function(link) {
     function linkStatus(res) {
       if(res.ok){
@@ -49,6 +49,7 @@ let findLinks = (filePath) => {
         }
       })
   });
+
 };
 
 const isDir = (filePath) => {
@@ -72,7 +73,6 @@ let findFiles = (filePath) => {
           findLinks(newFilePath);
         }
         else if(stat.isDirectory()) {
-          console.log('is Dir');
           findFiles(newFilePath);
         }
       });
@@ -81,22 +81,12 @@ let findFiles = (filePath) => {
 };
 
 const mainPath = (filePath) => {
-  let foundLinks;
     if(isFile(filePath) && isMD(filePath)) {
       findLinks(filePath);
     }
     else {
-      foundLinks = findFiles(filePath).forEach(findLinks(filePath));
+      findFiles(filePath);
     }
-    // if (option === '--stats') {
-    //   console.log(chalk.red('Almost ready'))
-    //   console.log('Total: ' + foundLinks.length);
-    //   //console.log('Broken: ' + foundLinks.forEach(options.linksCount));
-    // }
-    // else {
-    //   console.log(chalk.red('Almost ready'));
-    //   console.log(foundLinks);
-    // }
 };
 
 

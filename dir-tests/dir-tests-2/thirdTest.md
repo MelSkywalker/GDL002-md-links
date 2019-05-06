@@ -1,1 +1,1 @@
-http://otrolinkquenoexiste.co
+http://otrolinkquenoexiste.com
