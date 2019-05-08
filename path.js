@@ -56,12 +56,14 @@ const findLinks = (filePath) => {
     else if (option === '--stats') {
         // const links = markdownLinkExtractor(content);
         let uniqueLinks = [...new Set(links)];
-        // let count = [];
-        // links.forEach(function (i) {
-        //     count[i] = (count[i] || 0 ) +1;
-        // });
-        // console.log(count);
-        return console.log(`Total: ${links.length} \nUnique: ${uniqueLinks.length}`);
+        let count = [];
+        links.forEach(function (i) {
+            count[i] = (count[i] || 0 ) +1;
+        });
+        return (
+            console.log(`Total: ${links.length} \nUnique: ${uniqueLinks.length}`),
+            console.log(count)
+        );
     }
 };
 
