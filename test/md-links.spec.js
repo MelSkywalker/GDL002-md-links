@@ -24,7 +24,7 @@ describe('findFiles', () => {
 });
 describe('findLinks', () => {
   it('should return 2', () => {
-    expect(path.findLinks('test.md').length).toBe(2);
+    expect(path.findLinks('test.md').length).toBe(4);
   })
 })
 

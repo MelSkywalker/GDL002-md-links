@@ -3,7 +3,6 @@ const path = require('path');
 const markdownLinkExtractor = require('markdown-link-extractor');
 const fetch = require('node-fetch');
 const chalk = require('chalk');
-const options = require('./options.js');
 
 const argument = process.argv[2];
 const option = process.argv[3];
@@ -28,11 +27,13 @@ const isMD = (filePath) => {
 let findLinks = (filePath) => {
   let content = fs.readFileSync(filePath, 'utf-8');
   let links = markdownLinkExtractor(content);
+  let r = /\[.*?\]\(http.*?\)/g;
+  //let rText = r.exec(content)[1];
   links.forEach(function(link) {
     function linkStatus(res) {
       if(res.ok){
         if(!option) {
-          return console.log(`${filePath} ${link}`);
+          return console.log(`---- ${link} ${filePath}`);
         }
         else if(option === '--validate') {
           return  console.log(chalk.green(`${filePath} ${link} ${res.statusText} ${res.status}`));
@@ -43,7 +44,7 @@ let findLinks = (filePath) => {
       .then(linkStatus)
       .catch((error) => {
         if(!option) {
-          console.log(`${filePath} ${link}`)
+          console.log(`----${link} ${filePath}`)
         } else {
           console.log(chalk.red(`${filePath} ${link} - Error: ${error.message}`));
         }

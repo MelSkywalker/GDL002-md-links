@@ -28,7 +28,6 @@ const linksCount = (link) => {
     }
 };
 
-
 module.exports = {
     validateLink: validateLink,
     getStatusCode: getStatusCode,
